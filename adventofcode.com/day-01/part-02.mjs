@@ -1,4 +1,4 @@
-import { listOne, listTwo } from "./day-01-part-01.mjs";
+import { listOne, listTwo } from "./part-01.mjs";
 
 // https://adventofcode.com/2024/day/1 - Part 2
 
