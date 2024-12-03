@@ -185,18 +185,34 @@ export const fullList = [
   99938, 37580, 89301, 73593, 36007, 11075, 96823, 49084, 34885,
 ];
 
-export const listOne = fullList
-  .filter((_, i) => i % 2 === 0)
-  .sort((a, b) => a - b);
+export const listOne = fullList.filter((_, i) => i % 2 === 0);
 
-export const listTwo = fullList
-  .filter((_, i) => i % 2 === 1)
-  .sort((a, b) => a - b);
+export const listTwo = fullList.filter((_, i) => i % 2 === 1);
 
-export const getSumDifferences = () => {
-  const differences = listOne.map((n, i) => Math.abs(n - listTwo[i]));
+type Lists = {
+  listOne: number[];
+  listTwo: number[];
+};
+
+const compareFn = (a: number, b: number) => a - b;
+
+export const getSumDifferences = ({ listOne, listTwo }: Lists) => {
+  const sortedListOne = listOne.sort(compareFn);
+  const sortedListTwo = listTwo.sort(compareFn);
+
+  const differences = sortedListOne.map((n, i) =>
+    Math.abs(n - sortedListTwo[i])
+  );
+
   const sumDifferences = differences.reduce((acc, n) => acc + n, 0);
   return sumDifferences;
 };
 
-console.log(getSumDifferences());
+export const getSimilarityScore = ({ listOne, listTwo }: Lists) => {
+  const similartityScore = listOne.reduce((acc, curr) => {
+    const listTwoMatches = listTwo.filter((item) => item === curr);
+    return acc + curr * listTwoMatches.length;
+  }, 0);
+
+  return similartityScore;
+};

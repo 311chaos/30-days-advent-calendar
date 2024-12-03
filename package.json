@@ -1,0 +1,14 @@
+{
+  "name": "2024_advent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Aaron Hickman <aaronhickman311@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vitest": "2.1.8"
+  },
+  "scripts": {
+    "test": "vitest"
+  }
+}

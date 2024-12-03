@@ -1,4 +1,4 @@
-function createFrame(names) {
+export const createFrame = (names: string[]): string => {
   const longestName = names.reduce((longestName, name) => {
     if (name.length > longestName.length) {
       return name;
@@ -15,6 +15,4 @@ function createFrame(names) {
     ),
     "*".repeat(frameLength),
   ].join("\n");
-}
-
-console.log(createFrame(["Alice", "Bob", "Charlie", "David"]));
+};
