@@ -1,6 +1,6 @@
-## 📅 2024 Advent Challenges
+# 📅 2024 Advent Challenges
 
-### https://adventofcode.com/2024
+## Advent of Code
 
 Solutions for the [Advent of Code](https://adventofcode.com/) puzzles
 
@@ -11,7 +11,7 @@ Solutions for the [Advent of Code](https://adventofcode.com/) puzzles
 | [01](https://adventofcode.com/2024/day/1) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-01/) |
 | [02](https://adventofcode.com/2024/day/2) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-02/) |
 
-### https://adventjs.dev/
+## Advent JS
 
 | Day                                             | Solution                                                                                        |
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------------- |
