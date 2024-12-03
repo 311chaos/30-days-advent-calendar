@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 
 import { prepareGifts } from "./index";
 
-describe("Prepare Gifts", () => {
+describe.concurrent("Prepare Gifts", () => {
   test("Returns Array", () => {
     expect(prepareGifts([3, 1, 2, 3, 4, 2, 5])).instanceOf(Array);
   });

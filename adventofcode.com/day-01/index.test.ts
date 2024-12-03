@@ -10,7 +10,7 @@ import {
 const sampleListOne = [3, 4, 2, 1, 3, 3];
 const sampleListTwo = [4, 3, 5, 3, 9, 3];
 
-describe("Day 01 - Part 1 - Get Sum of Differences", () => {
+describe.concurrent("Day 01 - Part 1 - Get Sum of Differences", () => {
   test("Sample Case", () => {
     expect(
       getSumDifferences({ listOne: sampleListOne, listTwo: sampleListTwo })
@@ -22,7 +22,7 @@ describe("Day 01 - Part 1 - Get Sum of Differences", () => {
   });
 });
 
-describe("Day 01 - Part 2", () => {
+describe.concurrent("Day 01 - Part 2", () => {
   test("Sample Case", () => {
     expect(
       getSimilarityScore({ listOne: sampleListOne, listTwo: sampleListTwo })

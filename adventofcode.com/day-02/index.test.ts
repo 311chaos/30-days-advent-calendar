@@ -19,7 +19,7 @@ const sampleInput = `
         1 3 6 7 9
         `;
 
-describe("Day 02 - Part 1", () => {
+describe.concurrent("Day 02 - Part 1", () => {
   test("Parse Input", () => {
     const expected = [
       [7, 6, 4, 2, 1],
@@ -101,7 +101,7 @@ describe("Day 02 - Part 1", () => {
   });
 });
 
-describe("Day 02 - Part 2", () => {
+describe.concurrent("Day 02 - Part 2", () => {
   test("Sample Case", () => {
     expect(getDampenedValidReports(parseInput(sampleInput))).toHaveLength(4);
   });
