@@ -4,8 +4,8 @@
   "main": "index.js",
   "author": "Aaron Hickman <aaronhickman311@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^22.10.1",
     "vitest": "2.1.8"
   },
   "scripts": {
