@@ -1,7 +1,5 @@
 // // https://adventofcode.com/2024/day/2
 
-import { input } from "./input";
-
 export const parseInput = (input: string) => {
   return input
     .trim()

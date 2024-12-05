@@ -4,10 +4,6 @@ import { readFile } from "fs/promises";
 
 const regEx = /mul\([0-9]+,[0-9]+\)/gm;
 
-export const getFile = async (fileName: string) => {
-  return await readFile(`./adventofcode.com/day-03/${fileName}`, "utf-8");
-};
-
 export const parseInput = (input: string) => {
   return input.match(regEx);
 };

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 
-import { parseInput, getFile, processInput, parseInputAdvanced } from "./index";
+import { parseInput, processInput, parseInputAdvanced } from "./index";
+import { getFile } from "../util";
 
 describe("Day 03 - Part 1", () => {
   describe("Process Input", () => {
@@ -28,7 +29,7 @@ describe("Day 03 - Part 1", () => {
   });
 
   test("Challenge Case", async () => {
-    const input = await getFile("input.txt");
+    const input = await getFile("day-03.txt");
     const inputs = parseInput(input);
 
     expect(processInput(inputs)).toEqual(185_797_128);
@@ -44,7 +45,7 @@ describe("Day 03 - Part 2", () => {
   });
 
   test("Challenge Case", async () => {
-    const input = await getFile("input.txt");
+    const input = await getFile("day-03.txt");
     const inputs = parseInputAdvanced(input);
     expect(processInput(inputs)).toEqual(89_798_695);
   });

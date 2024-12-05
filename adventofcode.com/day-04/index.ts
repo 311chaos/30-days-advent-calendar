@@ -1,5 +1,3 @@
-import { readFile } from "fs/promises";
-
 type Position = [number, number];
 type SearchInput = {
   searchInput: string;
@@ -15,10 +13,6 @@ const DIRECTIONS: Record<string, Position> = {
   HORIZONTAL_RIGHT: [0, 1],
   VERTICAL_UP: [-1, 0],
   VERTICAL_DOWN: [1, 0],
-};
-
-export const getFile = async (fileName: string) => {
-  return await readFile(`./adventofcode.com/day-04/${fileName}`, "utf-8");
 };
 
 export const isOdd = (num: number): num is number => {

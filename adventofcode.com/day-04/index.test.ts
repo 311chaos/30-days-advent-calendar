@@ -1,12 +1,12 @@
 import { describe, expect, test } from "vitest";
 
 import {
-  getFile,
   findStringInMatrix,
   isOdd,
   findCrossInMatrix,
   stringMatchesDirection,
 } from "./index";
+import { getFile } from "../util";
 
 const sampleInput = `
 MMMSXXMASM
@@ -29,7 +29,7 @@ describe("Day 04 - Part 1", () => {
   });
 
   test("Challenge Case", async () => {
-    const searchInput = await getFile("input.txt");
+    const searchInput = await getFile("day-04.txt");
     const searchString = "XMAS";
     expect(findStringInMatrix({ searchInput, searchString })).toHaveLength(
       2547
@@ -77,7 +77,7 @@ describe("Day 04 - Part 2", () => {
   });
 
   test("Challenge Case", async () => {
-    const searchInput = await getFile("input.txt");
+    const searchInput = await getFile("day-04.txt");
 
     expect(
       findCrossInMatrix({ searchInput, searchString: "MAS" })
