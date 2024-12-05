@@ -1,50 +1,76 @@
 import { readFile } from "fs/promises";
 
 type Position = [number, number];
+type SearchInput = {
+  searchInput: string;
+  searchString: string;
+};
 
-const directions = [
-  [0, 1], // Horizontal right
-  [1, 0], // Vertical down
-  [0, -1], // Horizontal left
-  [-1, 0], // Vertical up
-  [1, 1], // Diagonal down-right
-  [-1, -1], // Diagonal up-left
-  [1, -1], // Diagonal down-left
-  [-1, 1], // Diagonal up-right
-];
-
-const crossDirections = [
-  [1, 1], // Diagonal down-right
-  [-1, -1], // Diagonal up-left
-  [1, -1], // Diagonal down-left
-  [-1, 1], // Diagonal up-right
-];
+const DIRECTIONS: Record<string, Position> = {
+  DIAG_UP_LEFT: [-1, -1],
+  DIAG_DOWN_RIGHT: [1, 1],
+  DIAG_UP_RIGHT: [-1, 1],
+  DIAG_DOWN_LEFT: [1, -1],
+  HORIZONTAL_LEFT: [0, -1],
+  HORIZONTAL_RIGHT: [0, 1],
+  VERTICAL_UP: [-1, 0],
+  VERTICAL_DOWN: [1, 0],
+};
 
 export const getFile = async (fileName: string) => {
   return await readFile(`./adventofcode.com/day-04/${fileName}`, "utf-8");
 };
 
+export const isOdd = (num: number): num is number => {
+  return num % 2 !== 0;
+};
+
+export const stringMatchesDirection = ({
+  searchString,
+  directions,
+  matrix,
+  startingPosition,
+}: {
+  searchString: string;
+  directions: Position;
+  matrix: string[][];
+  startingPosition: Position;
+}) => {
+  const [dirX, dirY] = directions;
+  const [rowIndex, rowCharIndex] = startingPosition;
+
+  if (rowIndex < 0 || rowCharIndex < 0) {
+    return false;
+  }
+
+  if (rowIndex > matrix.length || rowCharIndex > matrix[0].length) {
+    return false;
+  }
+
+  return searchString.split("").every((searchChar, searchCharIndex) => {
+    const nextX = rowIndex + searchCharIndex * dirX;
+    const nextY = rowCharIndex + searchCharIndex * dirY;
+
+    return matrix[nextX] ? matrix[nextX][nextY] === searchChar : false;
+  });
+};
+
 export const findStringInMatrix = ({
   searchInput,
   searchString,
-}: {
-  searchInput: string;
-  searchString: string;
-}) => {
+}: SearchInput) => {
   const matrix = searchInput.split("\n").map((row) => row.split(""));
   const matches: { start: Position; direction: Position }[] = [];
 
   matrix.forEach((row, rowIndex) => {
     row.forEach((rowChar, rowCharIndex) => {
-      directions.forEach(([dirX, dirY]) => {
-        const allCharsMatch = searchString
-          .split("")
-          .every((searchChar, searchCharIndex) => {
-            const nextX = rowIndex + searchCharIndex * dirX;
-            const nextY = rowCharIndex + searchCharIndex * dirY;
-
-            return matrix[nextX] ? matrix[nextX][nextY] === searchChar : false;
-          });
+      Object.entries(DIRECTIONS).forEach(([_key, [dirX, dirY]]) => {
+        const allCharsMatch = stringMatchesDirection({
+          searchString,
+          directions: [dirX, dirY],
+          matrix,
+          startingPosition: [rowIndex, rowCharIndex],
+        });
 
         if (allCharsMatch) {
           matches.push({
@@ -55,5 +81,73 @@ export const findStringInMatrix = ({
       });
     });
   });
+  return matches;
+};
+
+export const findCrossInMatrix = ({
+  searchInput,
+  searchString,
+}: SearchInput) => {
+  if (!isOdd(searchString.length)) {
+    throw new Error("Search string must be odd");
+  }
+
+  const matrix = searchInput.split("\n").map((row) => row.split(""));
+  const matches: { start: Position }[] = [];
+  const centerCharIndex = Math.floor(searchString.length / 2);
+  const centerChar = searchString[centerCharIndex];
+
+  matrix.forEach((row, rowIndex) => {
+    row.forEach((rowChar, rowCharIndex) => {
+      // Search for the center character, if not found return
+      if (rowChar !== centerChar) {
+        return;
+      }
+
+      const jumpLength = searchString.length - centerCharIndex - 1;
+
+      // Search for \ diagonal
+      const diagDown = [
+        stringMatchesDirection({
+          searchString,
+          directions: DIRECTIONS.DIAG_DOWN_RIGHT,
+          matrix,
+          startingPosition: [rowIndex - jumpLength, rowCharIndex - jumpLength],
+        }),
+        stringMatchesDirection({
+          searchString: searchString.split("").reverse().join(""),
+          directions: DIRECTIONS.DIAG_DOWN_RIGHT,
+          matrix,
+          startingPosition: [rowIndex - jumpLength, rowCharIndex - jumpLength],
+        }),
+      ];
+
+      // Search for / diagonal
+      const diagUp = [
+        stringMatchesDirection({
+          searchString,
+          directions: DIRECTIONS.DIAG_DOWN_LEFT,
+          matrix,
+          startingPosition: [rowIndex - jumpLength, rowCharIndex + jumpLength],
+        }),
+        stringMatchesDirection({
+          searchString: searchString.split("").reverse().join(""),
+          directions: DIRECTIONS.DIAG_DOWN_LEFT,
+          matrix,
+          startingPosition: [rowIndex - jumpLength, rowCharIndex + jumpLength],
+        }),
+      ];
+
+      if (
+        diagDown.some((result) => result) &&
+        diagUp.some((result) => result)
+      ) {
+        matches.push({
+          start: [rowIndex, rowCharIndex],
+        });
+      }
+    });
+  });
+
   return matches;
 };

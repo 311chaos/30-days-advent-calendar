@@ -11,7 +11,7 @@ Solutions for the [Advent of Code](https://adventofcode.com/) puzzles
 | [01](https://adventofcode.com/2024/day/1) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-01/) |
 | [02](https://adventofcode.com/2024/day/2) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-02/) |
 | [02](https://adventofcode.com/2024/day/3) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-03/) |
-| [02](https://adventofcode.com/2024/day/4) | ⭐    | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-04/) |
+| [02](https://adventofcode.com/2024/day/4) | ⭐⭐  | [Solution](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventofcode.com/day-04/) |
 
 ## Advent JS
 
