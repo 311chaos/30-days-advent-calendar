@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { getSimilarityScore, getSumDifferences } from "./index";
-import { getFile } from "../util";
+import { getFile } from "../utils";
 
 const sampleListOne = [3, 4, 2, 1, 3, 3];
 const sampleListTwo = [4, 3, 5, 3, 9, 3];

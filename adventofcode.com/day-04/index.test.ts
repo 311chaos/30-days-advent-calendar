@@ -2,11 +2,11 @@ import { describe, expect, test } from "vitest";
 
 import {
   findStringInMatrix,
-  isOdd,
   findCrossInMatrix,
   stringMatchesDirection,
 } from "./index";
-import { getFile } from "../util";
+
+import { getFile } from "../utils";
 
 const sampleInput = `
 MMMSXXMASM
@@ -38,13 +38,6 @@ describe("Day 04 - Part 1", () => {
 });
 
 describe("Day 04 - Part 2", () => {
-  test("isOdd", () => {
-    expect(isOdd(0)).toBe(false);
-    expect(isOdd(1)).toBe(true);
-    expect(isOdd(2)).toBe(false);
-    expect(isOdd(3)).toBe(true);
-  });
-
   test("string Matches Direction", () => {
     const searchString = "MAS";
     const matrix = sampleInput.split("\n").map((row) => row.split(""));

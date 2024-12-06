@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { parseInput, processInput, parseInputAdvanced } from "./index";
-import { getFile } from "../util";
+import { getFile } from "../utils";
 
 describe("Day 03 - Part 1", () => {
   describe("Process Input", () => {

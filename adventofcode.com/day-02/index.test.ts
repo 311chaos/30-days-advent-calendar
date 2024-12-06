@@ -7,7 +7,7 @@ import {
   getValidReports,
   parseInput,
 } from ".";
-import { getFile } from "../util";
+import { getFile } from "../utils";
 
 const sampleInput = `
         7 6 4 2 1
