@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 
 import { createXmasTree, getNthOddNumber } from "./index";
 
-describe("Day 03 - Part 1", () => {
+describe("Day 03", () => {
   test("Get Nth Odd Number", () => {
     expect(getNthOddNumber(1)).toBe(1);
     expect(getNthOddNumber(2)).toBe(3);
