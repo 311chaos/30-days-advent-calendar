@@ -24,3 +24,4 @@ Solutions for the [Advent of Code](https://adventofcode.com/) puzzles
 | [03](https://adventjs.dev/en/challenges/2024/3) | [Solutions](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventjs.dev/day-03/) |
 | [04](https://adventjs.dev/en/challenges/2024/4) | [Solutions](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventjs.dev/day-04/) |
 | [04](https://adventjs.dev/en/challenges/2024/5) | [Solutions](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventjs.dev/day-05/) |
+| [04](https://adventjs.dev/en/challenges/2024/6) | [Solutions](https://github.com/311chaos/30-days-advent-calendar/blob/main/adventjs.dev/day-06/) |
