@@ -9,15 +9,15 @@ const GuardDirections = {
 type Obstacle = Position & { isObstacle: true };
 type Space = Position & {
   isObstacle: false;
-  hasVisited: boolean;
   isGuardAtPostion: false;
+  visitedDirections: (keyof typeof GuardDirections)[];
 };
 
 export type GuardPosition = Position & {
   direction: keyof typeof GuardDirections;
   isObstacle: false;
-  hasVisited: boolean;
   isGuardAtPostion: true;
+  visitedDirections: (keyof typeof GuardDirections)[];
 };
 
 type Grid = (Obstacle | Space | GuardPosition)[];
@@ -35,7 +35,7 @@ export const buildLayoutGrid = (input: string): Grid => {
           isGuardAtPostion: true,
           direction: GuardDirections[col],
           isObstacle: false,
-          hasVisited: true,
+          visitedDirections: [GuardDirections[col]],
         };
       }
 
@@ -44,7 +44,7 @@ export const buildLayoutGrid = (input: string): Grid => {
         col: colIndex,
         isGuardAtPostion: false,
         isObstacle: false,
-        hasVisited: false,
+        visitedDirections: [],
       };
     });
   });
@@ -83,12 +83,25 @@ export const goForAWalk = (layoutGrid: Grid) => {
         isGuardAtPostion: false,
       } as Space;
 
-      mappedGrid[nextSpotIndex] = {
-        ...mappedGrid[nextSpotIndex],
-        isGuardAtPostion: true,
-        hasVisited: true,
-        direction: currentGuardPosition.direction,
-      } as GuardPosition;
+      // Check this spot to ensure that we havent already visited it with the same direction.
+      if (nextSpot) {
+        if (
+          "visitedDirections" in nextSpot &&
+          nextSpot.visitedDirections.includes(currentGuardPosition.direction)
+        ) {
+          throw new Error("INFINITE_LOOP");
+        }
+
+        mappedGrid[nextSpotIndex] = {
+          ...nextSpot,
+          isGuardAtPostion: true,
+          visitedDirections:
+            "visitedDirections" in nextSpot
+              ? [...nextSpot.visitedDirections, currentGuardPosition.direction]
+              : [currentGuardPosition.direction],
+          direction: currentGuardPosition.direction,
+        } as GuardPosition;
+      }
     }
   }
 
@@ -144,4 +157,51 @@ export const takeStep = (guard: GuardPosition): GuardPosition => {
       break;
   }
   return { ...guard, row, col };
+};
+
+export const addObstacleAndAttemptWalk = (
+  layoutGrid: Grid,
+  position: Position
+): boolean => {
+  const obstacleSpotIndex = layoutGrid.findIndex(
+    (l) => l.row === position.row && l.col === position.col
+  );
+
+  // We wont add an obstacle if there is already an obstacle there.
+  if (layoutGrid[obstacleSpotIndex].isObstacle) {
+    return false;
+  }
+  // We wont add an obstacle if there is a guard there.
+  if (layoutGrid[obstacleSpotIndex].isGuardAtPostion) {
+    return false;
+  }
+
+  const localLayoutGrid = [...layoutGrid];
+
+  localLayoutGrid[obstacleSpotIndex] = {
+    row: position.row,
+    col: position.col,
+    isObstacle: true,
+  };
+
+  try {
+    goForAWalk(localLayoutGrid);
+  } catch (e) {
+    if (e.message === "INFINITE_LOOP") {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const findInfiniteLoops = (layoutGrid: Grid): number => {
+  const results = layoutGrid.map((spot) => {
+    return addObstacleAndAttemptWalk(layoutGrid, {
+      row: spot.row,
+      col: spot.col,
+    });
+  });
+
+  return results.filter((r) => r).length;
 };

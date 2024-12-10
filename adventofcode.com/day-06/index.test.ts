@@ -1,6 +1,8 @@
 import { describe, test, expect } from "vitest";
 import {
+  addObstacleAndAttemptWalk,
   buildLayoutGrid,
+  findInfiniteLoops,
   goForAWalk,
   GuardPosition,
   isOutOfBounds,
@@ -9,7 +11,7 @@ import {
 } from ".";
 import { getFile } from "../utils";
 
-describe("Day 06", () => {
+describe("Day 06", async () => {
   const sampleInput = `
 ....#.....
 .........#
@@ -23,6 +25,9 @@ describe("Day 06", () => {
 ......#...`.trim();
 
   const sampleLayout = buildLayoutGrid(sampleInput);
+
+  const challengeInput = await getFile("day-06.txt");
+  const challengeLayout = buildLayoutGrid(challengeInput);
 
   test("Build Layout", () => {
     expect(sampleLayout).toHaveLength(100);
@@ -41,7 +46,7 @@ describe("Day 06", () => {
       row: 6,
       col: 4,
       isObstacle: false,
-      hasVisited: true,
+      visitedDirections: ["^"],
       isGuardAtPostion: true,
       direction: "^",
     });
@@ -53,7 +58,7 @@ describe("Day 06", () => {
         row: 0,
         col: 0,
         direction: "^",
-        hasVisited: false,
+        visitedDirections: ["^"],
         isGuardAtPostion: true,
         isObstacle: false,
       };
@@ -86,7 +91,7 @@ describe("Day 06", () => {
           row: 6,
           col: 4,
           direction: "^",
-          hasVisited: false,
+          visitedDirections: [],
           isGuardAtPostion: true,
           isObstacle: false,
         })
@@ -94,7 +99,7 @@ describe("Day 06", () => {
         row: 5,
         col: 4,
         direction: "^",
-        hasVisited: false,
+        visitedDirections: [],
         isGuardAtPostion: true,
         isObstacle: false,
       });
@@ -103,18 +108,51 @@ describe("Day 06", () => {
       const walkResult = goForAWalk(sampleLayout);
 
       expect(
-        walkResult.filter((spot) => "hasVisited" in spot && spot.hasVisited)
+        walkResult.filter(
+          (spot) =>
+            "visitedDirections" in spot && spot.visitedDirections.length > 0
+        )
       ).toHaveLength(41);
     });
 
     test("Challenge Case", async () => {
-      const challengeInput = await getFile("day-06.txt");
-      const challengeLayout = buildLayoutGrid(challengeInput);
       const walkResult = goForAWalk(challengeLayout);
 
       expect(
-        walkResult.filter((spot) => "hasVisited" in spot && spot.hasVisited)
+        walkResult.filter(
+          (spot) =>
+            "visitedDirections" in spot && spot.visitedDirections.length > 0
+        )
       ).toHaveLength(5080);
+    });
+  });
+
+  describe("Part 2", () => {
+    test("addObstacleAndAttemptWalk - Current Guard position", () => {
+      expect(addObstacleAndAttemptWalk(sampleLayout, { row: 6, col: 4 })).toBe(
+        false
+      );
+    });
+
+    test("addObstacleAndAttemptWalk - Infinite", () => {
+      expect(addObstacleAndAttemptWalk(sampleLayout, { row: 6, col: 3 })).toBe(
+        true
+      );
+    });
+
+    test("addObstacleAndAttemptWalk - First Move requires turn", () => {
+      expect(addObstacleAndAttemptWalk(sampleLayout, { row: 5, col: 4 })).toBe(
+        false
+      );
+    });
+
+    test("Sample Case", () => {
+      expect(findInfiniteLoops(sampleLayout)).toBe(6);
+    });
+
+    // Brute force, so takes a while to run.
+    test.skip("Challenge Case", () => {
+      expect(findInfiniteLoops(challengeLayout)).toBe(6);
     });
   });
 });
